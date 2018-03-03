@@ -51,10 +51,11 @@ def convert_srt_to_dfxp(times, generate_output=False):
         counter += 1
         sys.stdout.write("\r{}/{} files completed.".format(counter, input_file_count))
 
-    print("\nConverting {} files took an average of {} seconds over {} iterations.\n{} files were skipped".format(
+    print("\nConverting {} files took an average of {} seconds over {} iteration{}.\n{} files were skipped".format(
         counter,
         all_time / times,
         times,
+        "s" if times > 1 else "",
         skipped_files
     ))
 
@@ -70,7 +71,7 @@ if __name__ == '__main__':
     except IndexError:
         output_flag = False
 
-    if type(iterations) is int:
+    if type(iterations) is int and iterations > 0:
         print("Converting SRT from folder '{}' into DFXP {} time{}.".format(
             INPUT_DIRECTORY,
             iterations,
@@ -83,4 +84,4 @@ if __name__ == '__main__':
 
         convert_srt_to_dfxp(iterations, output_flag)
     else:
-        print("Please provide an integer for the number of iterations you want to test.")
+        print("Please provide a positive integer for the number of iterations you want to test.")
