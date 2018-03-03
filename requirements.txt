@@ -1,0 +1,7 @@
+beautifulsoup4==4.4.1
+cssutils==1.0.2
+enum34==1.1.6
+future==0.16.0
+lxml==4.1.1
+pycaption==1.0.1
+six==1.11.0
