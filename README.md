@@ -9,5 +9,5 @@ Converting SRT from folder 'input' into DFXP 100 times.
 Saving converted files in folder 'output'.
 1609/1611 files completed.
 Converting 1609 files took an average of 49.94203472137451 seconds over 100 iterations.
-2 files were skipped
+2 files were skipped.
 ```

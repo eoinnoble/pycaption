@@ -51,7 +51,7 @@ def convert_srt_to_dfxp(times, generate_output=False):
         counter += 1
         sys.stdout.write("\r{}/{} files completed.".format(counter, input_file_count))
 
-    print("\nConverting {} files took an average of {} seconds over {} iteration{}.\n{} files were skipped".format(
+    print("\nConverting {} files took an average of {} seconds over {} iteration{}.\n{} files were skipped.".format(
         counter,
         all_time / times,
         times,
