@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import io
 import os
 import sys
-import time
+from timeit import default_timer as timer
 
 from pycaption import DFXPWriter, SRTReader
 
@@ -16,10 +15,11 @@ def convert_srt_to_dfxp(times, generate_output=False):
 
     all_time = 0
     counter = 0
-    input_file_count = len(os.listdir(INPUT_DIRECTORY))
+    input_files = os.listdir(INPUT_DIRECTORY)
+    input_files_count = len(input_files)
     skipped_files = 0
 
-    for input_file in os.listdir(INPUT_DIRECTORY):
+    for input_file in input_files:
 
         if input_file.startswith('.'):  # Skip hidden files and SRT master file
             skipped_files += 1
@@ -27,7 +27,7 @@ def convert_srt_to_dfxp(times, generate_output=False):
 
         filename = '{}/{}'.format(INPUT_DIRECTORY, input_file)
 
-        with io.open(filename, 'r', encoding='utf-8') as fh:
+        with open(filename, 'r', encoding='utf-8') as fh:
             try:
                 srt_data = fh.read()
             except UnicodeDecodeError:
@@ -37,9 +37,9 @@ def convert_srt_to_dfxp(times, generate_output=False):
         total_file_time = 0
 
         for _ in range(times):
-            t0 = time.time()
+            t0 = timer()
             dfxp_data = DFXPWriter().write(SRTReader().read(srt_data))
-            t1 = time.time()
+            t1 = timer()
             time_taken = t1 - t0
             total_file_time += time_taken
 
@@ -49,7 +49,7 @@ def convert_srt_to_dfxp(times, generate_output=False):
 
         all_time += total_file_time
         counter += 1
-        sys.stdout.write("\r{}/{} files completed.".format(counter, input_file_count))
+        sys.stdout.write("\r{}/{} files completed.".format(counter, input_files_count))
 
     print("\nConverting {} files took an average of {} seconds over {} iteration{}.\n{} files were skipped.".format(
         counter,
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     except IndexError:
         output_flag = False
 
-    if type(iterations) is int and iterations > 0:
+    if isinstance(iterations, int) and iterations > 0:
         print("Converting SRT from folder '{}' into DFXP {} time{}.".format(
             INPUT_DIRECTORY,
             iterations,
