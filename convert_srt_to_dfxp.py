@@ -25,13 +25,14 @@ def convert_srt_to_dfxp(times, generate_output=False):
             skipped_files += 1
             continue
 
-        filename = '{}/{}'.format(INPUT_DIRECTORY, input_file)
+        filename = input_file.split('.')[0]
+        file_path = '{}/{}'.format(INPUT_DIRECTORY, input_file)
 
-        with open(filename, 'r', encoding='utf-8') as fh:
+        with open(file_path, 'r', encoding='utf-8') as fh:
             try:
                 srt_data = fh.read()
             except UnicodeDecodeError:
-                print("Problem with {}".format(filename))
+                print("Problem with {}".format(file_path))
                 raise
 
         total_file_time = 0
@@ -43,8 +44,8 @@ def convert_srt_to_dfxp(times, generate_output=False):
             time_taken = t1 - t0
             total_file_time += time_taken
 
-            if generate_output and "{}.xml".format(counter) not in os.listdir(OUTPUT_DIRECTORY):
-                with open("{}/{}.xml".format(OUTPUT_DIRECTORY, counter), "w") as new_dfxp_file:
+            if generate_output and "{}.xml".format(filename) not in os.listdir(OUTPUT_DIRECTORY):
+                with open("{}/{}.xml".format(OUTPUT_DIRECTORY, filename), "w") as new_dfxp_file:
                     new_dfxp_file.write(dfxp_data)
 
         all_time += total_file_time
